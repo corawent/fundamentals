@@ -96,38 +96,51 @@ jsc=round(J(i_jsc),3,'significant');
 pce=round(max(J.*V)/pinc,3,'significant');
 ff=round(max(J.*V)/(voc*jsc),3,'significant');
 
+%% calculate contributions to efficiency
+
+eg=1.337;
+e=eg:e_step:5;
+
+hw_avg=trapz(e,G(e))./(jsc);
+
+n_abs=jsc*hw_avg/pinc;
+n_therm=(eg+3/2*k*T_c)/hw_avg;
+n_thermo=voc/(eg+3/2*k*T_c);
+
+n=n_abs*n_therm*n_thermo*ff;
+
 %% plots
-figure(1)
-plot(V,J/10)
-xlabel('Voltage (V)')
-ylabel('Current Density (mA/cm^2)')
-title('I-V Curve')
-ylim([0,40])
-str = {strcat('V_{oc}=',num2str(voc*1000),' mV'),...
-    strcat('J_{sc}=',num2str(jsc/10),' mA/cm^2'),...
-    strcat('FF=',num2str(ff)),...
-    strcat('PCE=',num2str(pce*100),'%')
-    };
-text(0.5,20,str,'FontSize',16);
-formatpresplot
-legend off
-
-figure(2)
-plot(e_tot,BBe_s*q,ev,am1p5)
-xlabel('Energy (eV)')
-ylabel('Spectral Irradiance (W m^{-2} eV^{-1})')
-legend('AM0','AM1.5')
-title('Illumination')
-xlim([0,5])
-formatpresplot
-
-figure(3)
-plot(egs,[eff_am0;eff_am1p5])
-xlabel('Bandgap (eV)')
-ylabel('Max Efficiency (%)')
-title('Detailed Balance Efficiency Limit')
-legend('AM0','AM1.5')
-formatpresplot
-
-max(eff_am1p5)
-
+% figure(1)
+% plot(V,J/10)
+% xlabel('Voltage (V)')
+% ylabel('Current Density (mA/cm^2)')
+% title('I-V Curve')
+% ylim([0,40])
+% str = {strcat('V_{oc}=',num2str(voc*1000),' mV'),...
+%     strcat('J_{sc}=',num2str(jsc/10),' mA/cm^2'),...
+%     strcat('FF=',num2str(ff)),...
+%     strcat('PCE=',num2str(pce*100),'%')
+%     };
+% text(0.5,20,str,'FontSize',16);
+% formatpresplot
+% legend off
+% 
+% figure(2)
+% plot(e_tot,BBe_s*q,ev,am1p5)
+% xlabel('Energy (eV)')
+% ylabel('Spectral Irradiance (W m^{-2} eV^{-1})')
+% legend('AM0','AM1.5')
+% title('Illumination')
+% xlim([0,5])
+% formatpresplot
+% 
+% figure(3)
+% plot(egs,[eff_am0;eff_am1p5])
+% xlabel('Bandgap (eV)')
+% ylabel('Max Efficiency (%)')
+% title('Detailed Balance Efficiency Limit')
+% legend('AM0','AM1.5')
+% formatpresplot
+% 
+% max(eff_am1p5)
+% 
