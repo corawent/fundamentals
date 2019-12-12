@@ -9,7 +9,7 @@ k=1.381e-23;
 
 %% blackbody spectrum
 
-t=6000;
+t=2500;
 
 wl=transpose(1:1:10000);
 em=1;
